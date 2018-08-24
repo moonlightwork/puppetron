@@ -213,7 +213,7 @@ require('http').createServer(async (req, res) => {
       case 'render': {
         const raw = searchParams.get('raw') || false;
 
-        const content = await pTimeout(raw ? page.content() : page.evaluate(() => {
+        let content = await pTimeout(raw ? page.content() : page.evaluate(() => {
           let content = '';
           if (document.doctype) {
             content = new XMLSerializer().serializeToString(document.doctype);
