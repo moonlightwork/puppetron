@@ -73,6 +73,7 @@ require('http').createServer(async (req, res) => {
     return;
   }
 
+  /*
   if (cache.itemCount > 20){
     res.writeHead(420, {
       'content-type': 'text/plain',
@@ -80,6 +81,7 @@ require('http').createServer(async (req, res) => {
     res.end(`There are ${cache.itemCount} pages in the current instance now. Please try again in few minutes.`);
     return;
   }
+  */
 
   let page, pageURL;
   try {
@@ -218,7 +220,8 @@ require('http').createServer(async (req, res) => {
           }
 
           const doc = document.documentElement.cloneNode(true);
-
+          
+          /*
           // Remove scripts except JSON-LD
           const scripts = doc.querySelectorAll('script:not([type="application/ld+json"])');
           scripts.forEach(s => s.parentNode.removeChild(s));
@@ -226,6 +229,7 @@ require('http').createServer(async (req, res) => {
           // Remove import tags
           const imports = doc.querySelectorAll('link[rel=import]');
           imports.forEach(i => i.parentNode.removeChild(i));
+          */
 
           const { origin, pathname } = location;
           // Inject <base> for loading relative resources
@@ -254,6 +258,11 @@ require('http').createServer(async (req, res) => {
 
           return content;
         }), 10 * 1000, 'Render timed out');
+
+
+        // moonlight internal stuff
+        content = content.split("http://sitemirror-local").join("http://www.moonlight.local");
+        content = content.split("http://sitemirror-prod").join("https://www.moonlightwork.com");
 
         res.writeHead(200, {
           'content-type': 'text/html; charset=UTF-8',
