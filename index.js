@@ -259,6 +259,11 @@ require('http').createServer(async (req, res) => {
           return content;
         }), 10 * 1000, 'Render timed out');
 
+
+        // moonlight internal stuff
+        content = content.split("http://sitemirror-local").join("http://www.moonlight.local");
+        content = content.split("http://sitemirror-prod").join("https://www.moonlightwork.com");
+
         res.writeHead(200, {
           'content-type': 'text/html; charset=UTF-8',
           'cache-control': 'public,max-age=31536000',
