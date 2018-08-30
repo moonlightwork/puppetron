@@ -150,14 +150,17 @@ require('http').createServer(async (req, res) => {
 
         const seconds = (+new Date() - nowTime) / 1000;
         const shortURL = truncate(url, 70);
-        const otherResources = /^(manifest|other)$/i.test(resourceType);
+        const otherResources = /^(manifest)$/i.test(resourceType);
         // Abort requests that exceeds 15 seconds
         // Also abort if more than 100 requests
         if (seconds > 15 || reqCount > 100 || actionDone){
           console.log(`❌⏳ ${method} ${shortURL}`);
           request.abort();
-        } else if (blockedRegExp.test(url) || otherResources){
-          console.log(`❌ ${method} ${shortURL}`);
+        } else if (blockedRegExp.test(url)) {
+          console.log(`❌🛑 ${method} ${shortURL}`);
+          request.abort();
+        } else if (otherResources) {
+          console.log(`❌other ${method} ${shortURL} ${resourceType}`);
           request.abort();
         } else {
           console.log(`✅ ${method} ${shortURL}`);
