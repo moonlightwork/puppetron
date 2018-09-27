@@ -398,7 +398,14 @@ require("http")
         console.error(e);
         console.log("💔 Force close " + pageURL);
         page.removeAllListeners();
-        await browser.close();
+        try {
+          browser.close();
+          browser = null;
+          page.close();
+        } catch (err) {
+          console.warn(`Chrome could not be killed ${err.message}`);
+          process.exit(1);
+        }
         page.close();
       }
       cache.del(pageURL);
