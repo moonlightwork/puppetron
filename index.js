@@ -403,6 +403,10 @@ require("http")
           browser = null;
           page.close();
         } catch (err) {
+          res.writeHead(500, {
+            "content-type": "text/plain"
+          });
+          res.end("Oops. Something is wrong.\n\n" + err);
           console.warn(`Chrome could not be killed ${err.message}`);
           process.exit(1);
         }
