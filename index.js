@@ -406,7 +406,6 @@ require("http")
           console.warn(`Chrome could not be killed ${err.message}`);
           process.exit(1);
         }
-        page.close();
       }
       cache.del(pageURL);
       const { message = "" } = e;
