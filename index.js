@@ -300,6 +300,9 @@ require("http")
           content = content
             .split("http://sitemirror-prod")
             .join("https://www.moonlightwork.com");
+          content = content
+            .split("http://sitemirror-namespace")
+            .join("https://mnlt.dev");
 
           res.writeHead(200, {
             "content-type": "text/html; charset=UTF-8",
